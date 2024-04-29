@@ -21,36 +21,31 @@
  * 
  */
 import java.util.Scanner;
-import java.util.*;
+import java.util.Arrays; 
 public class 중첩_for_6 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// 1. 컴퓨터가 난수 발생 => 1~9 사이의 중복 없는 숫자 3개
-		
-	
-		
 		int [] com=new int[3];
-		
-		for(int i=0;i<=com.length;i++) { //3번 반복하라는 뜻
+		for(int i=0;i<com.length;i++) { //3번 반복하라는 뜻
 			com[i]=(int)(Math.random()*9)+1;
 			// 중복 여부 확인
-			for(int j=0;j<=i;j++) { // 생성된 난수만큼 비교
+			for(int j=0;j<i;j++) { // 생성된 난수만큼 비교
 				if(com[i]==com[j]) {// 같은 수가 있는지 확인 => 비교연산 / 논리연산만
 					i--; // 다시 난수 발생
 					break; // j가 있는 for만 종료 ==> i++로 이동
 				}
 			}
 		}
-		System.out.println(Arrays.toString(com));
+		//System.out.println(Arrays.toString(com));
 		
 
 		//사용자가 입력한 데이터 저장
 		int [] user=new int[3];
-		
+		Scanner scan=new Scanner(System.in);
 		// 2. 사용자 입력 요청
 		while(true) {//반복 횟수가 없다 => 정답시에 종료 => 무한루프
-			Scanner scan=new Scanner(System.in);
 			System.out.println("세자리 정수 입력:");
 			int input=scan.nextInt();
 			// 오류 처리 => 세자리 정수가 입력이 안 된 경우
@@ -86,7 +81,7 @@ public class 중첩_for_6 {
 			
 			//	오류 처리 => 2개
 			//	1. 같은 수인 경우는 안 된다
-			if( user[0]==user[1] || user[1]==user[2] || user[2]==user[3]){
+			if( user[0]==user[1] || user[1]==user[2] || user[2]==user[0]){
 				 System.out.println("알림 ☞ 중복된 수는 사용 불가 ");
 				 continue;
 			}
