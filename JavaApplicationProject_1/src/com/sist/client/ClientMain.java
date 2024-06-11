@@ -2,6 +2,7 @@ package com.sist.client;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import com.sist.dao.*;
@@ -10,11 +11,15 @@ public class ClientMain extends JFrame implements ActionListener{
     CardLayout card=new CardLayout();
     LoginPanel lp=new LoginPanel();
     MainPanel mp=new MainPanel();
+    JoinPanel jp = new JoinPanel();
+    PostFindFrame post = new PostFindFrame(); // 우편번호 검색
+    
     public ClientMain()
     {
     	setLayout(card);
     	add("LOGIN",lp);
     	add("MP",mp);
+    	add("JP",jp);
     	setSize(800, 1000);
     	//setResizable(false);
     	setVisible(true);
@@ -24,6 +29,14 @@ public class ClientMain extends JFrame implements ActionListener{
     	lp.loginBtn.addActionListener(this);// 로그인 
     	lp.joinBtn.addActionListener(this);// 회원가입 
     	lp.cancleBtn.addActionListener(this);// 종료
+    	
+    	jp.b4.addActionListener(this); // 취소
+    	jp.b2.addActionListener(this); // 우편번호 검색
+    	
+    	post.b1.addActionListener(this); // 우편번호 검색 버튼
+    	post.b2.addActionListener(this); // 취소
+    	post.tf.addActionListener(this); // 우편번호 입력 창   
+    	
     	
     	
     	
@@ -41,8 +54,49 @@ public class ClientMain extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		if(e.getSource()==lp.cancleBtn)
 		{
-			dispose();// window메모리 해제 
+			dispose();// window 메모리 해제 
 			System.exit(0);// 프로그램 종료
+		}
+		else if(e.getSource()==post.b2) {
+			post.setVisible(false);
+		}
+		else if(e.getSource()==post.b1 || e.getSource()==post.tf) {
+			String dong = post.tf.getText();
+			if(dong.length()<1) { // 입력이 안 된 경우
+				JOptionPane.showMessageDialog(this, "동 / 읍 / 면을 입력하세요");
+				post.tf.requestFocus();
+				return;
+			}
+			MemberDAO dao = MemberDAO.newInstance();
+			ArrayList<ZipcodeVO> list = dao.postFindData(dong);
+			if(list.size()==0) {
+				JOptionPane.showMessageDialog(this, "결과 없음");
+				post.tf.setText(" ");
+				post.tf.requestFocus();
+			}
+			else {
+				for(int i=post.model.getRowCount()-1; i>=0;i--) {
+					post.model.removeRow(i);
+				}
+				for(ZipcodeVO vo:list) {
+					String [] data = {vo.getZipcode(),vo.getAddress()};
+					post.model.addRow(data);
+				}
+			}
+		}
+		
+		else if(e.getSource()==jp.b2) {
+			for(int i=post.model.getRowCount()-1; i>=0;i--) {
+				post.model.removeRow(i);
+			}
+			post.tf.setText("");
+			post.setVisible(true);
+		}
+		else if(e.getSource()==jp.b4) {
+			card.show(getContentPane(), "LOGIN");
+		}
+		else if(e.getSource()==lp.joinBtn) {
+			card.show(getContentPane(), "JP");
 		}
 		else if(e.getSource()==lp.loginBtn)
 		{
