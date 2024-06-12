@@ -43,7 +43,7 @@ public class JoinPanel extends JPanel{
        nLa.setBounds(150, 150, 90, 30);
        add(nLa);
        
-       nametf=new JPasswordField();
+       nametf=new JTextField();
        nametf.setBounds(265, 150, 200, 30);
        add(nametf);
        ////////////////////////////////////////////////////////////////
@@ -61,6 +61,7 @@ public class JoinPanel extends JPanel{
        
        ButtonGroup bg=new ButtonGroup();
        bg.add(rb1); bg.add(rb2);
+       // 라디오 버튼은 만든 다음에 이렇게 그룹 처리 해줘야 됨
        
        rb1.setSelected(true);
        /////////////////////////////////////////////////////////////
