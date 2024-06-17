@@ -4,7 +4,8 @@ import java.sql.*;
 public class MemberDAO {
    private Connection conn;
    private PreparedStatement ps;
-   private final String URL="jdbc:oracle:thin:@localhost:1521:XE";
+   private final String URL="jdbc:oracle:thin:@192.168.0.107:1521:XE";
+   // localhost => 192.168.10.124
    private static MemberDAO dao; // 싱글턴 
    
    // 1. 드라이버 등록 
@@ -20,7 +21,7 @@ public class MemberDAO {
    {
 	   try
 	   {
-		   conn=DriverManager.getConnection(URL,"hr","happy");
+		   conn=DriverManager.getConnection(URL,"hr","happy");// hr2
 		   // conn hr/happy
 	   }catch(Exception ex) {}
    }
@@ -106,107 +107,148 @@ public class MemberDAO {
 	   }
 	   return result;
    }
-   // 1-1. 회원 정보 읽기
-   public MemberVO memberInfo(String id) {
-	   MemberVO vo = new MemberVO();
-	   try {
+   // 1-1 회원 정보 읽기
+   public MemberVO memberInfo(String id)
+   {
+	   MemberVO vo=new MemberVO();
+	   try
+	   {
 		   getConnection();
 		   String sql="SELECT id,name,sex,admin "
-				   +"FROM member "
-				   +"WHERE id=?";
+				     +"FROM member "
+				     +"WHERE id=?";
 		   ps=conn.prepareStatement(sql);
 		   ps.setString(1, id);
-		   ResultSet rs = ps.executeQuery();
+		   ResultSet rs=ps.executeQuery();
 		   rs.next();
 		   vo.setId(rs.getString(1));
 		   vo.setName(rs.getString(2));
 		   vo.setSex(rs.getString(3));
 		   vo.setAdmin(rs.getString(4));
 		   rs.close();
-	   }catch(Exception ex) {
+	   }catch(Exception ex)
+	   {
 		   ex.printStackTrace();
 	   }
-	   finally {
+	   finally
+	   {
 		   disConnection();
 	   }
 	   return vo;
-	   
-	   
+   }
+   public MemberVO memberInfo2(String id)
+   {
+	   MemberVO vo=new MemberVO();
+	   try
+	   {
+		   getConnection();
+		   String sql="SELECT name,sex,addr1,phone,content,email "
+				     +"FROM member "
+				     +"WHERE id=?";
+		   ps=conn.prepareStatement(sql);
+		   ps.setString(1, id);
+		   ResultSet rs=ps.executeQuery();
+		   rs.next();
+		   vo.setName(rs.getString(1));
+		   vo.setSex(rs.getString(2));
+		   vo.setAddr1(rs.getString(3));
+		   vo.setPhone(rs.getString(4));
+		   vo.setContent(rs.getString(5));
+		   vo.setEmail(rs.getString(6));
+		   rs.close();
+	   }catch(Exception ex)
+	   {
+		   ex.printStackTrace();
+	   }
+	   finally
+	   {
+		   disConnection();
+	   }
+	   return vo;
    }
    // 2. 회원가입 => 아이디 중복 체크 / 우편번호 검색 
    /*
-    *  ID                                                                                                                                                                   
- PW                                                                                                                                                                           
- NAME                                                                                                                                                                         
- SEX                                                                                                                                                                      
- BIRTHDAY                                                                                                                                                        
- POST                                                                                                                                                                       
- ADDR1                                                                                                                                                                         
- ADDR2                                                                                                                                                                         
- PHONE                                                                                                                                                                         
- EMAIL                                                                                                                                                       
- CONTENT                                                                                                                                                 
- REGDATE                                                                                                                                                             
- ADMIN                                                                                                                                                              
+    *   ID  
+ PWD
+ NAME
+ SEX
+ BIRTHDAY
+ POST
+ ADDR1
+ ADDR2
+ PHONE
+ EMAIL
+ CONTENT
+ REGDATE
+ ADMIN
+                                                                         
     */
-   public String memberInsert(MemberVO vo) {
-	   /*	Statement
-	    * 	String sql = "INSERT INTO member VALUES('"+vo.getId()+"','"+
+   public String memberInsert(MemberVO vo)
+   {
+	   /*
+	    *   Statement 
+	    *   String sql="INSERT INTO member VALUES('"+vo.getId()+"','"+
 	    */
 	   String result="";
-	   try {
+	   try
+	   {
 		   getConnection();
 		   String sql="INSERT INTO member VALUES(?,?,?,?,?,?,?,?,?,?,?,SYSDATE,'n')";
 		   ps=conn.prepareStatement(sql);
-		   // ? 에 값을 채운다
-		   ps.setString(1,vo.getId());
-		   ps.setString(2,vo.getPwd());
-		   ps.setString(3,vo.getName());
-		   ps.setString(4,vo.getSex());
-		   ps.setString(5,vo.getBirthday());
+		   // ?에 값을 채운다 
+		   ps.setString(1, vo.getId());
+		   ps.setString(2, vo.getPwd());
+		   ps.setString(3, vo.getName());
+		   ps.setString(4, vo.getSex());
+		   ps.setString(5, vo.getBirthday());
 		   
-		   ps.setString(6,vo.getPost());
-		   ps.setString(7,vo.getAddr1());
-		   ps.setString(8,vo.getAddr2());
-		   ps.setString(9,vo.getPhone());
-		   ps.setString(10,vo.getEmail());
-		   ps.setString(11,vo.getContent());
+		   ps.setString(6, vo.getPost());
+		   ps.setString(7, vo.getAddr1());
+		   ps.setString(8, vo.getAddr2());
+		   ps.setString(9, vo.getPhone());
+		   ps.setString(10, vo.getEmail());
+		   ps.setString(11, vo.getContent());
 		   
-		   // 추가 요청
-		   ps.executeUpdate();
-		   // executeQuery랑 다른 점은 얘는 COMMIT; 이 포함 되어 있음 오토커밋임
-		   // INSERT / UPDATE / DELETE 할 때 쓰는 거임 쿼리는 SELECT할 때
+		   // 추가 요청 
+		   ps.executeUpdate();// commit() 포함 => INSERT / UPDATE / DELETE 
+		   // executeQuery() => 데이터를 가지고 온다 => SELECT
 		   
 		   result="yes";
-		   
-	   }catch(Exception ex) {
+	   }catch(Exception ex)
+	   {
 		   result=ex.getMessage();
 		   ex.printStackTrace();
 	   }
-	   finally {
+	   finally
+	   {
 		   disConnection();
 	   }
+	   
 	   return result;
    }
-   // 2-1. 아이디 중복체크
-   public int memberIdCheck(String id) {
-	   int count =0;
-	   try {
+   // 2-1 아이디중복체크 
+   public int memberIdCheck(String id)
+   {
+	   int count=0;
+	   try
+	   {
 		   getConnection();
 		   String sql="SELECT COUNT(*) FROM member "
-				   +"WHERE id=?";
+				     +"WHERE id=?";
 		   ps=conn.prepareStatement(sql);
-		   // ? 에 값을 채움
-		   ps.setString(1,id);
-		   ResultSet rs = ps.executeQuery();
+		   // ?에 값을 채운다 
+		   ps.setString(1, id);
+		   ResultSet rs=ps.executeQuery();
 		   rs.next();
 		   count=rs.getInt(1);
 		   rs.close();
 		   
-	   }catch(Exception ex) {
+	   }catch(Exception ex)
+	   {
 		   ex.printStackTrace();
 	   }
-	   finally {
+	   finally
+	   {
 		   disConnection();
 	   }
 	   return count;
@@ -214,19 +256,22 @@ public class MemberDAO {
    // 3. 회원수정
    // 4. 회원탈퇴 
    // => SQL문장 제작 => 웹도 가능 => DAO변경이 없다 
-   // 5. 우편번호 검색
-   public ArrayList<ZipcodeVO> postFindData(String dong){
-	   ArrayList<ZipcodeVO> list = new ArrayList<ZipcodeVO>();
-	   try {
+   // 5. 우편번호 검색 
+   public ArrayList<ZipcodeVO> postFindData(String dong)
+   {
+	   ArrayList<ZipcodeVO> list=new ArrayList<ZipcodeVO>();
+	   try
+	   {
 		   getConnection();
 		   String sql="SELECT zipcode,sido,gugun,dong,NVL(bunji,' ') "
-				   + "FROM zipcode "
-				   + "WHERE dong LIKE '%'||?||'%'";
+				     +"FROM zipcode "
+				     +"WHERE dong LIKE '%'||?||'%'";
 		   ps=conn.prepareStatement(sql);
 		   ps.setString(1, dong); // 자동 => '서초'
-		   ResultSet rs = ps.executeQuery();
-		   while(rs.next()) {
-			   ZipcodeVO vo = new ZipcodeVO();
+		   ResultSet rs=ps.executeQuery();
+		   while(rs.next())
+		   {
+			   ZipcodeVO vo=new ZipcodeVO();
 			   vo.setZipcode(rs.getString(1));
 			   vo.setSido(rs.getString(2));
 			   vo.setGugun(rs.getString(3));
@@ -235,10 +280,12 @@ public class MemberDAO {
 			   list.add(vo);
 		   }
 		   rs.close();
-	   }catch (Exception ex) {
+	   }catch(Exception ex)
+	   {
 		   ex.printStackTrace();
 	   }
-	   finally {
+	   finally
+	   {
 		   disConnection();
 	   }
 	   return list;

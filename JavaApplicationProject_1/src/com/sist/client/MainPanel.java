@@ -2,13 +2,17 @@ package com.sist.client;
 import java.awt.*;
 import javax.swing.*;
 public class MainPanel extends JPanel{
-     MenuPanel mp=new MenuPanel();
-     ControllPanel cp=new ControllPanel();
+     
+     CardLayout card=new CardLayout();
      //EmpListPanel ep=new EmpListPanel();
+     HomePanel hp=new HomePanel();
+     ChatPanel chatP=new ChatPanel();
      public MainPanel()
      {
-    	 setLayout(new BorderLayout());
-    	 add("North",mp);
-    	 add("Center",cp);
+  	   setLayout(card);
+  	   //add("EP",ep);
+  	   add("CHAT",chatP);
+  	   add("HP",hp);
+  	   
      }
 }
