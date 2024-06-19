@@ -9,6 +9,10 @@ public class BoardList extends JPanel{
 	JTable table;
 	DefaultTableModel model;
 	TableColumn column;
+	
+	int curpage=1; // 현재
+	int totalpage=0; // 총 페이지
+	
 	public BoardList() {
 		inBtn=new JButton("NEW"); // < input type = button value="새글" >
 		prevBtn=new JButton("<");
@@ -71,5 +75,7 @@ public class BoardList extends JPanel{
 		p.setBounds(10, 450, 600, 35);
 		add(p);
 	}
-
+	public void print() {
+	
+	}
 }

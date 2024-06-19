@@ -4,7 +4,7 @@ import java.sql.*;
 public class MemberDAO {
    private Connection conn;
    private PreparedStatement ps;
-   private final String URL="jdbc:oracle:thin:@192.168.0.107:1521:XE";
+   private final String URL="jdbc:oracle:thin:@192.168.10.124:1521:XE";
    // localhost => 192.168.10.124
    private static MemberDAO dao; // 싱글턴 
    
@@ -21,7 +21,7 @@ public class MemberDAO {
    {
 	   try
 	   {
-		   conn=DriverManager.getConnection(URL,"hr","happy");// hr2
+		   conn=DriverManager.getConnection(URL,"hr1","happy");// hr2
 		   // conn hr/happy
 	   }catch(Exception ex) {}
    }

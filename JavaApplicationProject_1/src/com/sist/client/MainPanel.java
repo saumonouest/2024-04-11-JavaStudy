@@ -5,7 +5,7 @@ public class MainPanel extends JPanel{
      
      CardLayout card=new CardLayout();
      //EmpListPanel ep=new EmpListPanel();
-     HomePanel hp=new HomePanel();
+     HomePanel hp= new HomePanel();
      ChatPanel chatP=new ChatPanel();
      public MainPanel()
      {

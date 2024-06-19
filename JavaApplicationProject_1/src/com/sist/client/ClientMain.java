@@ -16,6 +16,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 /*
+ * 
+ * 010-5523-8733
  *   => 서버에서 전송된 데이터 읽기 => 프로그램을 별도로 동작 => 쓰레드 
  *   => 클라이언트 요청을 하는 프로그램 
  */
@@ -45,12 +47,12 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
     {
     	setLayout(null);
     	
-    	mp.setBounds(300, 15, 600, 35);
+    	mp.setBounds(200, 15, 700, 35);
     	add(mp);
-    	cp.setBounds(10, 60, 930, 600);
+    	cp.setBounds(10, 60, 930, 580);
     	add(cp);
     	
-    	setSize(960, 700);
+    	setSize(960, 680);
     	setResizable(false);
     	//setVisible(true);
     	
@@ -77,6 +79,8 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
     	mp.exitBtn.addActionListener(this);
     	mp.chatBtn.addActionListener(this);
     	mp.homeBtn.addActionListener(this);
+    	mp.findBtn.addActionListener(this);
+    	mp.boardBtn.addActionListener(this);
     	
     	cp.chatP.tf.addActionListener(this);
     	
@@ -97,6 +101,14 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 			dispose();// window메모리 해제 
 			System.exit(0);// 프로그램 종료
 		}
+		else if(e.getSource()==mp.boardBtn)
+		{
+			cp.card.show(cp, "LIST");// <a href="list.jsp">
+		}
+		else if(e.getSource()==mp.findBtn)
+		{
+			cp.card.show(cp, "FP");
+		}
 		else if(e.getSource()==cp.chatP.tf)
 		{
 			String msg=cp.chatP.tf.getText();
@@ -115,9 +127,10 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 		}
 		else if(e.getSource()==mp.exitBtn)
 		{
-			try {
+			try
+			{
 				out.write((Function.EXIT+"|\n").getBytes());
-			}catch(Exception ex) {}
+			}catch(Exception ex){}
 		}
 		else if(e.getSource()==mp.chatBtn)
 		{
@@ -125,7 +138,7 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 		}
 		else if(e.getSource()==mp.homeBtn)
 		{
-			
+			cp.card.show(cp, "HP");
 		}
 		else if(e.getSource()==jp.b1)// 아이디 중복 체크 
 		{
@@ -225,7 +238,8 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 			if(res.equals("yes"))
 			{
 				JOptionPane.showMessageDialog(this, "회원 가입에 축하합니다");
-				card.show(getContentPane(), "LOGIN");
+				lp.setVisible(true);
+				jp.setVisible(false);
 			}
 			else
 			{
@@ -361,11 +375,12 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 				}
 				else
 				{
+					
 					// 로그인 ==> 서버로 전송 
 					try
 					{
 						//1. 소켓 => 전화 걸기 
-						s=new Socket("localhost",3355); // 조별 
+						s=new Socket("192.168.0.104",11010); // 조별 
 						out=s.getOutputStream();
 						System.out.println("id="+id);
 						in=new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -469,34 +484,36 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 					  cp.chatP.append(message, color);
 				  }
 				  break;
-				  
-				  case Function.MYEXIT:{
+				  case Function.MYEXIT:
+				  {
 					  System.exit(0);
 				  }
 				  break;
-				  
-				  case Function.EXIT:{
+				  case Function.EXIT:
+				  {
 					  String yid=st.nextToken();
-					  for(int i=0; i<cp.chatP.model.getRowCount();i++) {
+					  for(int i=0;i<cp.chatP.model.getRowCount();i++)
+					  {
 						  String s=cp.chatP.model.getValueAt(i, 0).toString();
-						  
-						  // 테이블에 등록된 ID 읽기
-						  if(s.equals(yid)) {
+						  // 테이블에 등록된 ID읽기 
+						  if(s.equals(yid))
+						  {
 							  cp.chatP.model.removeRow(i);
 							  break;
 						  }
 					  }
-					  for(int i=0;i<cp.chatP.box2.getItemCount();i++) {
+					  for(int i=0;i<cp.chatP.box2.getItemCount();i++)
+					  {
 						  String s=cp.chatP.box2.getItemAt(i);
-						  if(s.equals(yid)) {
-							  cp.chatP.box2.remove(i);
+						  if(s.equals(yid))
+						  {
+							  cp.chatP.box2.removeItemAt(i);
 							  break;
 						  }
 					  }
+					  
 				  }
 				  break;
-				  
-				  
 				}
 			}
 		}catch(Exception ex) {ex.printStackTrace();}
