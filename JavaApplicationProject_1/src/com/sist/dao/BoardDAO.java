@@ -108,7 +108,7 @@ public class BoardDAO {
    {
 	   try
 	   {
-		   conn=DriverManager.getConnection(URL,"hr1","happy");
+		   conn=DriverManager.getConnection(URL,"hr","happy");
 		   // 대문자 구분
 		   // 오라클로 명령 => conn hr/happy
 	   }catch(Exception ex) {}
@@ -326,7 +326,7 @@ public class BoardDAO {
 	   return vo;
    }
    // 4. 수정 => 비밀번호 체크 => 비밀번호 체크 / 실제 수정  => 묻고답하기 : SQL(5)
-   // 4-1. 기존의 데이터 읽기
+   // 4-1 기존의 데이터 읽기 
    public BoardVO boardUpdateData(int no)
    {
 	   // 한개의 게시물에 대한 구분자 => no
@@ -357,86 +357,97 @@ public class BoardDAO {
 	   }
 	   return vo;
    }
-   // 체크 => boolean => pwd, no
+   // 체크 => boolean => pwd,no 
    // 목록 => List => page
    // 상세보기 => VO => primary key
-   // 찾기 => List => 검색어
+   // 찾기 => List => 검색어 
    // 추가 => void => VO
-   
-   // 4-2. 실제 수정
-   // SQL 문장 사용법
-   public boolean boardUpdate(BoardVO vo) {
+   // 4-2 실제 수정 
+   // SQL문장 사용법 
+   public boolean boardUpdate(BoardVO vo)
+   {
 	   boolean bCheck=false;
-	   try {
+	   try
+	   {
 		   getConnection();
-		   // 1. 비밀번호 체크
-		   String sql ="SELECT pwd FROM board "
-				   +"WHERE no=?";
+		   //1. 비밀번호 체크 
+		   String sql="SELECT pwd FROM board "
+				     +"WHERE no=?";
 		   ps=conn.prepareStatement(sql);
 		   ps.setInt(1, vo.getNo());
-		   ResultSet rs= ps.executeQuery();
+		   ResultSet rs=ps.executeQuery();
 		   rs.next();
 		   String db_pwd=rs.getString(1);
 		   rs.close();
 		   
 		   // 확인 
-		   if(db_pwd.equals(vo.getPwd())) {
+		   if(db_pwd.equals(vo.getPwd()))
+		   {
 			   bCheck=true;
-			   // 데이터베이스 수정
+			   // 데이터베이스 수정 
 			   sql="UPDATE board SET "
-					   +"name=?, subject=?, content=? "
-					   +"WHERE no=?";
+			      +"name=? , subject=? , content=? "
+				  +"WHERE no=?";
 			   ps=conn.prepareStatement(sql);
-			   // ?에 값을 채운다 => 실행 => commit() 자동 실행 된다
+			   // ?에 값을 채운다 => 실행 => commit() 자동 실행된다 
 			   ps.setString(1, vo.getName());
 			   ps.setString(2, vo.getSubject());
 			   ps.setString(3, vo.getContent());
 			   ps.setInt(4, vo.getNo());
 			   
 			   ps.executeUpdate();
-			   
 		   }
-		   else {
+		   else
+		   {
 			   bCheck=false;
 		   }
-	   }catch(Exception ex) {
+		   
+	   }catch(Exception ex)
+	   {
 		   ex.printStackTrace();
 	   }
-	   finally {
+	   finally
+	   {
 		   disConnection();
 	   }
 	   return bCheck;
    }
    // 5. 삭제 => 비밀번호 체크 => 비밀번호 체크 / 실제 삭제  => 묻고답하기 : SQL(7)
-   public boolean boardDelete(int no, String pwd) {
+   public boolean boardDelete(int no,String pwd)
+   {
 	   boolean bCheck=false;
-	   try {
+	   try
+	   {
 		   getConnection();
-		   String sql ="SELECT pwd FROM board "
-				   +"WHERE no=?";
+		   String sql="SELECT pwd FROM board "
+				     +"WHERE no=?";
 		   ps=conn.prepareStatement(sql);
 		   ps.setInt(1, no);
-		   ResultSet rs = ps.executeQuery();
+		   ResultSet rs=ps.executeQuery();
 		   rs.next();
 		   String db_pwd=rs.getString(1);
 		   rs.close();
 		   
-		   if(db_pwd.equals(pwd)) {
+		   if(db_pwd.equals(pwd))
+		   {
 			   bCheck=true;
-			   sql = "DELETE FROM board "
-					   +"WHERE no=?";
+			   // 실제 삭제
+			   sql="DELETE FROM board "
+				  +"WHERE no=?";
 			   ps=conn.prepareStatement(sql);
 			   ps.setInt(1, no);
 			   ps.executeUpdate();
 		   }
-		   else {
+		   else
+		   {
 			   bCheck=false;
 		   }
-		   
-	   }catch(Exception ex) {
+	   }catch(Exception ex)
+	   {
 		   ex.printStackTrace();
 	   }
-	   finally {
+	   finally
+	   {
 		   disConnection();
 	   }
 	   return bCheck;

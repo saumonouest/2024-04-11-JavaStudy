@@ -13,6 +13,13 @@ public class ChatPanel extends JPanel{
     JTable table; 
     DefaultTableModel model;
     JButton b1,b2;
+    
+    // 상담 
+    JLabel la;
+    JTextField youTf, sendTf;
+    JTextArea ta;
+    JButton ob;
+    
     public ChatPanel()
     {
     	setLayout(null);
@@ -58,17 +65,43 @@ public class ChatPanel extends JPanel{
     	add(js2);
     	
     	box2=new JComboBox<String>();
-    	box2.setBounds(495,420, 100, 30);
-    	box2.addItem("all");
+    	box2.setBounds(495,170, 100, 30);
+    	box2.addItem("상담자");
     	add(box2);
     	
     	b1=new JButton("1:1상담");
-    	b1.setBounds(600, 420, 120, 30);
+    	b1.setBounds(600, 170, 120, 30);
     	
     	b2=new JButton("정보보기");
-    	b2.setBounds(725, 420, 100, 30);
+    	b2.setBounds(725, 170, 100, 30);
     	
     	add(b1);add(b2);
+    	
+    	la = new JLabel("1:1");
+    	youTf = new JTextField(10);
+    	youTf.setEnabled(false);
+    	ob= new JButton("종료");
+    	
+    	ta=new JTextArea();
+    	JScrollPane js3 = new JScrollPane(ta);
+    	ta.setEditable(false);
+    	
+    	sendTf = new JTextField(30);
+    	
+    	JPanel pan = new JPanel();
+    	pan.setLayout(new BorderLayout());
+    	
+    	JPanel p = new JPanel();
+    	p.add(la); p.add(youTf);
+    	pan.add("North",p);
+    	
+    	pan.add("Center",js3);
+    	pan.add("South",sendTf);
+    	
+    	pan.setBounds(495, 220, 400, 300);
+    	add(pan);
+    	
+    	pan.setVisible(false);
     }
     public void initStyle()
     {

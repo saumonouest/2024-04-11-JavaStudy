@@ -18,6 +18,7 @@ public class ControllPanel extends JPanel{
    BoardDetailPanel bdp;
    BoardDeletePanel bdelp;
    BoardUpdatePanel bup;
+   SchedulerPanel sp;
    // 웹에서 => 화면 변경 => controller
    /*
     *   처리 : Model
@@ -31,6 +32,7 @@ public class ControllPanel extends JPanel{
    {
 	   setLayout(card);
 	   //add("EP",ep);
+	   sp = new SchedulerPanel(this, 0);
 	   hp = new HomePanel(this);
 	   dp = new GoodsDetailPanel(this);
 	   bp = new BoardListPanel(this);
@@ -41,6 +43,7 @@ public class ControllPanel extends JPanel{
 	   bup = new BoardUpdatePanel(this);
 	   my = new MypagePanel(this);
 	   
+	   add("SP",sp);
 	   add("HP",hp);
 	   add("CHAT",chatP);
 	   add("DP",dp);

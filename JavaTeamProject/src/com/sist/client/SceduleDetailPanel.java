@@ -10,14 +10,14 @@ import javax.swing.JTextArea;
 import java.awt.event.*;
 import com.sist.dao.*;
 
-public class ResDetailPanel extends JPanel implements ActionListener{
+public class SceduleDetailPanel extends JPanel implements ActionListener{
 	JLabel titleLa, nameLa, noLa, subLa, dayLa, hitLa;
 	JLabel name, no, sub, day, hit;
 	JTextArea ta;
 	JButton b1, b2, b3; // 1. 수정 2. 삭제 3. 목록
 	ControllPanel cp;
 	BoardDAO dao;
-	public ResDetailPanel(ControllPanel cp) {
+	public SceduleDetailPanel(ControllPanel cp) {
 
 		this.cp = cp;
 		dao = BoardDAO.newInstance();
