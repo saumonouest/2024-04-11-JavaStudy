@@ -43,8 +43,8 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 		//titleLa = new JLabel("예약확인", JLabel.CENTER);// <table>
 		//titleLa.setFont(new Font("맑은 고딕", Font.BOLD, 30)); // <h3></h3>
 
-		String[] col = { "번호", "일정제목", "날짜", "위치", "내용"};// <tr><th></th> ....</tr>
-		String[][] row = new String[0][5]; // 한 줄에 5개 데이터를 첨부
+		String[] col = { "번호", "일정제목", "날짜", "위치", "내용" , "아이디"};// <tr><th></th> ....</tr>
+		String[][] row = new String[0][6]; // 한 줄에 5개 데이터를 첨부
 		model = new DefaultTableModel(row, col) {
 
 			@Override
@@ -82,7 +82,7 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 		//titleLa.setBounds(120, 15, 620, 50);
 		//add(titleLa);
 		
-		js.setBounds(250, 400, 866, 30);
+		js.setBounds(250, 400, 866, 200);
 		add(js);
 
 		JPanel p = new JPanel();
@@ -137,12 +137,14 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 	        
 	        Mtable = new JTable(); 
 	        JScrollPane tableScroll = new JScrollPane(Mtable);
-	        tableScroll.setBounds(250, 400, 866, 250);
+	        tableScroll.setBounds(250, 400, 866, 200);
 	        add(tableScroll);
-
+	        
+	        /*
 	        b1 = new JButton("");
 	        b1.setBounds(250, 620, 100, 30);
 	        add(b1);
+	        */
 
 	        b2 = new JButton("저장");
 	        b2.setBounds(633, 700, 100, 15);
@@ -159,11 +161,12 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 		totalpage = dao.CalendarTotalPage();
 		
 		for(CalendarVO vo : list) {
-			String[] data = {
-					String.valueOf(vo.getTitle()),
+			Object[] data = {
+					vo.getNo(),
+					vo.getTitle(),
 					vo.getPlace(),
 					vo.getContent(),
-					vo.getDay().toString(),
+					vo.getDay(),
 					vo.getUserId()
 			};
 			model.addRow(data);
@@ -194,9 +197,9 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 	            int row = table.getSelectedRow();
 	            String no = model.getValueAt(row, 0).toString();
 	            // 데이터를 출력
-	            cp.bdp.print(Integer.parseInt(no));
+	            cp.sdetp.print(Integer.parseInt(no));
 	            // 이동
-	            cp.card.show(cp, "DETAIL");
+	            cp.card.show(cp, "SCH_DETAIL");
 	         }
 	      }
 	   }
@@ -213,8 +216,6 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 	public void mouseExited(MouseEvent e) {
 	}
 }
-
-
 
 
 

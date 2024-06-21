@@ -3,13 +3,14 @@ package com.sist.client;
 import java.awt.CardLayout;
 import java.awt.Color;
 
+import javax.crypto.Cipher;
 import javax.swing.JPanel;
 
 public class ControllPanel extends JPanel{
    CardLayout card=new CardLayout();
    //EmpListPanel ep=new EmpListPanel();
    HomePanel hp;
-   GoodsDetailPanel dp;
+   FoodDetailPanel dp;
    FindPanel fp;
    ChatPanel chatP=new ChatPanel();
    MypagePanel my;
@@ -19,25 +20,19 @@ public class ControllPanel extends JPanel{
    BoardDeletePanel bdelp;
    BoardUpdatePanel bup;
    SchedulerPanel sp;
+   ThemaPanel tp;
+   FoodHousePanel fhp;
    ScheduleDeletePanel sdp;
    ScheduleUpdatePanel sup;
    ScheduleDetailPanel sdetp;
-   // 웹에서 => 화면 변경 => controller
-   /*
-    *   처리 : Model
-    *   화면 : View
-    *   화면 변경 : Controller => MVC
-    *   
-    *   최근 Spring MVC 가 사라졌다
-    *   	----------
-    */
-   public ControllPanel()
+   ClientMain cMain;
+   public ControllPanel(ClientMain cm)
    {
+	   cMain=cm;
 	   setLayout(card);
 	   //add("EP",ep);
-	   sp = new SchedulerPanel(this, 0);
 	   hp = new HomePanel(this);
-	   dp = new GoodsDetailPanel(this);
+	   dp = new FoodDetailPanel(this);
 	   bp = new BoardListPanel(this);
 	   fp = new FindPanel(this);
 	   bip = new BoardInsertPanel(this);
@@ -45,27 +40,30 @@ public class ControllPanel extends JPanel{
 	   bdelp = new BoardDeletePanel(this);
 	   bup = new BoardUpdatePanel(this);
 	   my = new MypagePanel(this);
+	   sp = new SchedulerPanel(this,0);
+	   tp = new ThemaPanel(this);
+	   fhp = new FoodHousePanel(this);
 	   sdp = new ScheduleDeletePanel(this);
 	   sup= new ScheduleUpdatePanel(this);
 	   sdetp = new ScheduleDetailPanel(this);
 	   
 	   add("SP",sp);
-	   add("HP",hp);
+	   add("FHP",fhp);
 	   add("CHAT",chatP);
 	   add("DP",dp);
-	   add("FP",fp);
+	   add("FIND",fp);
 	   add("LIST",bp);
 	   add("INSERT",bip);
 	   add("DETAIL",bdp);
 	   add("DELETE",bdelp);
 	   add("UPDATE",bup);
 	   add("MY",my);
+	   add("THEMA",tp);
+//	   add("HP",hp);
 	   add("SCH_DELETE",sdp);
 	   add("SCH_UPDATE",sup);
 	   add("SCH_DETAIL",sdetp);
+	   
    }
 }
-
-
-
 

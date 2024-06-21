@@ -28,7 +28,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 	PostFindFrame post = new PostFindFrame();// 우편번호 검색
 	IdCheckFrame idfrm = new IdCheckFrame();
 
-	ControllPanel cp = new ControllPanel();
+	ControllPanel cp;
 	MenuPanel mp = new MenuPanel();
 	// 네트워크에 필요한 객체
 	Socket s; // 통신기기 => 핸드폰
@@ -42,8 +42,11 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 	String myId;
 
 	public ClientMain() {
-		setLayout(null);
 
+		cp=new ControllPanel(this);
+		
+		setLayout(null);
+		
 		mp.setBounds(25, 168, 100, 450);
 	      add(mp);
 	    cp.setBounds(150, 0, 1186, 718);
@@ -52,6 +55,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 		setSize(1366, 768);
 		setResizable(false);
 		// setVisible(true);
+        setLocationRelativeTo(null); // 프레임을 화면 중앙에 배치
 
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		// setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -76,10 +80,14 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 		mp.exitBtn.addActionListener(this);
 		mp.chatBtn.addActionListener(this);
 		mp.homeBtn.addActionListener(this);
-		mp.findBtn.addActionListener(this);
 		mp.boardBtn.addActionListener(this);
 		mp.myBtn.addActionListener(this);
+		mp.rankBtn.addActionListener(this);
 		
+		cp.tp.b1.addActionListener(this);
+		cp.tp.b2.addActionListener(this);
+		cp.fp.b1.addActionListener(this);
+		cp.fp.b2.addActionListener(this);
 		cp.chatP.tf.addActionListener(this);
 
 	}
@@ -99,14 +107,54 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 		if (e.getSource() == lp.cancelBtn) {
 			dispose();// window메모리 해제
 			System.exit(0);// 프로그램 종료
-		}else if (e.getSource() == mp.myBtn) {
+		}
+		
+		else if(e.getSource()==cp.tp.b1) {
+			try {
+				if(cp.tp.curpage>1) {
+					cp.tp.curpage--;
+					cp.tp.themaprint(cp.fhp.thema);
+					System.out.println(cp.fhp.thema);
+					System.out.println(cp.tp.totalpage);
+					System.out.println(cp.tp.curpage);
+				}
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}else if(e.getSource()==cp.tp.b2) {
+				if(cp.tp.curpage<cp.tp.totalpage) {
+					cp.tp.curpage++;
+					cp.tp.themaprint(cp.fhp.thema);
+				}
+
+			}
+			else if(e.getSource()==cp.fp.b1) {
+				try {
+				if(cp.fp.curpage>1) {
+					cp.fp.curpage--;
+					cp.fp.print(cp.fhp.find);
+				}
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}else if(e.getSource()==cp.fp.b2) {
+				if(cp.fp.curpage<cp.fp.totalpage) {
+					cp.fp.curpage++;
+					cp.fp.print(cp.fhp.find);
+				}
+
+			}
+		
+		else if(e.getSource() == mp.rankBtn) {
+			cp.fhp.findTf.setText("");
+			cp.card.show(cp, "FHP");
+		}
+		else if (e.getSource() == mp.myBtn) {
+			cp.my.print();
 			cp.card.show(cp, "MY");
 		}
 		else if (e.getSource() == mp.boardBtn) {
 			cp.card.show(cp, "LIST"); // <a harf="list.jsp">
-		}
-		else if (e.getSource() == mp.findBtn) {
-			cp.card.show(cp,"FP");
 		}
 		else if (e.getSource() == cp.chatP.tf) {
 			String msg = cp.chatP.tf.getText();
@@ -130,7 +178,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 		} else if (e.getSource() == mp.chatBtn) {
 			cp.card.show(cp, "CHAT");
 		} else if (e.getSource() == mp.homeBtn) {
-			cp.card.show(cp, "HP");
+			cp.card.show(cp, "SP");
 		} else if (e.getSource() == jp.b1)// 아이디 중복 체크
 		{
 			idfrm.tf.setText("");
@@ -324,7 +372,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 						System.out.println("id=" + id);
 						in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 						out.write((Function.LOGIN + "|" + id + "\n").getBytes());
-
+						
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -336,6 +384,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 				ex.printStackTrace();
 
 			}
+			
 		}
 	}
 
@@ -404,8 +453,14 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 				case Function.MYLOG: {
 					myId = st.nextToken();
 					String name = st.nextToken();
-					setTitle(name + "님의 채팅창");
+					setTitle("");
 					lp.setVisible(false);
+					cp.my.idtf.setText(myId);
+					cp.my.idtf.setFont(new Font("맑은 고딕",Font.BOLD,30));
+					cp.my.idtf.setHorizontalAlignment(JTextField.CENTER);
+					cp.my.nametf.setText(name);
+					cp.my.nametf.setFont(new Font("맑은 고딕",Font.BOLD,30));
+					cp.my.nametf.setHorizontalAlignment(JTextField.CENTER);
 					setVisible(true);
 				}
 					break;

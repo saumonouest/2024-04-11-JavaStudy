@@ -28,7 +28,6 @@ public class ScheduleUpdatePanel extends JPanel implements ActionListener{
 	    JButton b1,b2;
 	    ControllPanel cp;
 	    BoardDAO dao;
-	    int no = 0;
 	    */
 	    JLabel Tl, Ll, DetailL, DateL, etc, etc2;
 	    JTextField Tf, Lf;
@@ -36,6 +35,7 @@ public class ScheduleUpdatePanel extends JPanel implements ActionListener{
 	    JComboBox<String> DateB, DateB2;
 	    JButton b1, b2;
 	    int day;
+	    int no = 0;
 	    JTextArea infoArea;
 	    JLabel dateLabel, timeLabel, titleLabel;
 	    CalendarDAO dao;
@@ -47,26 +47,30 @@ public class ScheduleUpdatePanel extends JPanel implements ActionListener{
 	    	dao = CalendarDAO.newInstance();
 	    	
 	    	Tl=new JLabel("수정하기",JLabel.CENTER);// <table>
+	    	Ll=new JLabel("위치",JLabel.CENTER);
+	    	Tl=new JLabel("일정",JLabel.CENTER);
+	    	Tf=new JTextField();
+	    	Lf=new JTextField();
+	    	DetailL=new JLabel("내용",JLabel.CENTER);
+	    	DetailA=new JTextArea();
+	    	
 	    	Ll.setFont(new Font("맑은 고딕",Font.BOLD,30)); //<h3></h3>
 	    	setLayout(null);
 	    	Ll.setBounds(120, 15, 620, 50);
 	    	add(Ll);
 	    	
-	    	Tl=new JLabel("일정",JLabel.CENTER);
-	    	Tf=new JTextField();
+	    	
 	    	Tl.setBounds(120, 70, 80, 30);
 	    	Tf.setBounds(205, 70, 150, 30);
 	    	add(Tl);add(Tf);
 	    	
-	    	Ll=new JLabel("위치",JLabel.CENTER);
-	    	Lf=new JTextField();
+	    	
+	    	
 	    	Ll.setBounds(120, 105, 80, 30);
 	    	Lf.setBounds(205, 105, 450, 30);
 	    	add(Ll);add(Lf);
 	    	
 	    	
-	    	DetailL=new JLabel("내용",JLabel.CENTER);
-	    	DetailA=new JTextArea();
 	    	JScrollPane js=new JScrollPane(DetailA);
 	    	DetailL.setBounds(120, 140, 80, 30);
 	    	js.setBounds(205, 140, 450, 250);
