@@ -81,7 +81,7 @@ public class GoodsDAO {
      // SQL문장 송수신 
      private PreparedStatement ps;
      // 오라클 주소 저장 => 변경 (X) => 상수 
-     private final String URL="jdbc:oracle:thin:@192.168.10.124:1521:XE";
+     private final String URL="jdbc:oracle:thin:@localhost:1521:XE";
      
      // 싱글턴 => 메모리 누수 현상 방지 => 객체를 한번만 생성 => DAO 
      private static GoodsDAO dao;
@@ -98,7 +98,7 @@ public class GoodsDAO {
      {
     	 try
     	 {
-    		 conn=DriverManager.getConnection(URL,"hr1","happy"); 
+    		 conn=DriverManager.getConnection(URL,"hr","happy"); 
     	 }catch(Exception ex) {}
      }
      // 3. 오라클 해제
@@ -305,7 +305,6 @@ public class GoodsDAO {
      
 }
 
- 
 
 
 

@@ -128,6 +128,3 @@ public class GoodsDetailPanel extends JPanel implements ActionListener,ItemListe
 
 
 
-
-
-

@@ -173,12 +173,11 @@ public class BoardDAO {
 			// 1page => 1~10
 			// 2page => 11~20
 			ps = conn.prepareStatement(sql);// 먼저 전송
-			
+			// 실행 요청 전에 ? 에 값을 채운다
 			int rowSize = 10;
 			int start = (rowSize*page)-(rowSize-1); // 10-9 = 1 ~
 			int end = rowSize*page; // 10
 			
-			// 실행 요청 전에 ? 에 값을 채운다
 			ps.setInt(1, start);
 			ps.setInt(2, end);
 			//실행 
@@ -405,7 +404,7 @@ public class BoardDAO {
 			}
 		}catch(Exception ex) {
 			ex.printStackTrace();
-		} 
+		}
 		finally {
 			disconnection();
 		}
@@ -416,7 +415,6 @@ public class BoardDAO {
 	
 }
 	
-
 
 
 

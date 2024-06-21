@@ -143,8 +143,6 @@ public class JoinPanel extends JFrame{
     	p.setBounds(150, 610, 565, 35);
     	add(p);
     	
-    	setSize(960, 700);
-        setLocationRelativeTo(null); // 프레임을 화면 중앙에 배치
-
+    	setSize(1366,768);
     }
 }

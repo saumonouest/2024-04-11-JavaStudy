@@ -1,7 +1,6 @@
 package com.sist.dao;
-
 public class ZipcodeVO {
-	private String zipcode, sido, bunji, dong, gugun, address;
+	private String zipcode,sido,gugun,dong,bunji,address;
 
 	public String getZipcode() {
 		return zipcode;
@@ -19,12 +18,12 @@ public class ZipcodeVO {
 		this.sido = sido;
 	}
 
-	public String getBunji() {
-		return bunji;
+	public String getGugun() {
+		return gugun;
 	}
 
-	public void setBunji(String bunji) {
-		this.bunji = bunji;
+	public void setGugun(String gugun) {
+		this.gugun = gugun;
 	}
 
 	public String getDong() {
@@ -35,16 +34,16 @@ public class ZipcodeVO {
 		this.dong = dong;
 	}
 
-	public String getGugun() {
-		return gugun;
-	} 
+	public String getBunji() {
+		return bunji;
+	}
 
-	public void setGugun(String gugun) {
-		this.gugun = gugun;
+	public void setBunji(String bunji) {
+		this.bunji = bunji;
 	}
 
 	public String getAddress() {
-		return sido+" "+gugun+" "+dong+" "+bunji;
+		return sido + " " + gugun + " " +dong+" "+ bunji;
 	}
 	
 }
