@@ -59,7 +59,7 @@ public class CalendarDAO {
 				CalendarVO vo = new CalendarVO();
 				vo.setTitle(rs.getString(1));
 				vo.setPlace(rs.getString(2));
-				vo.setDay(rs.getDate(3));
+				vo.setDay(rs.getString(3));
 				vo.setContent(rs.getString(4));
 				vo.setUserId(rs.getString(5));
 				list.add(vo);
@@ -107,14 +107,15 @@ public class CalendarDAO {
 			 */
 			// 2. 오라클로 보낼 SQL 문장
 			String sql = "INSERT INTO schedule(title, place, day, content, userId) "
-					+ "VALUES(?,?,SYSDATE,?,?) ";
+					+ "VALUES(?,?,?,?,?) ";
 			
 			ps = conn.prepareStatement(sql);
 			
 			ps.setString(1, vo.getTitle());
 			ps.setString(2, vo.getPlace());
-			ps.setString(3, vo.getContent());
-			ps.setString(4, vo.getUserId());
+			ps.setString(3,vo.getDay());
+			ps.setString(4, vo.getContent());
+			ps.setString(5, vo.getUserId());
 			
 			ps.executeUpdate();
 	
@@ -148,7 +149,7 @@ public class CalendarDAO {
 			rs.next();
 			vo.setTitle(rs.getString(1));
 			vo.setPlace(rs.getString(2));
-			vo.setDay(rs.getDate(3));
+			vo.setDay(rs.getString(3));
 			vo.setContent(rs.getString(4));
 			vo.setUserId(rs.getString(5));
 			rs.close();
@@ -175,7 +176,7 @@ public class CalendarDAO {
 			rs.next();
 			vo.setTitle(rs.getString(1));
 			vo.setPlace(rs.getString(2));
-			vo.setDay(rs.getDate(3));
+			vo.setDay(rs.getString(3));
 			vo.setContent(rs.getString(4));
 			vo.setUserId(rs.getString(5));
 			rs.close();
@@ -198,7 +199,7 @@ public class CalendarDAO {
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, vo.getTitle());
 			ps.setString(2, vo.getPlace());
-			//ps.setDate(3, vo.getDay());
+			ps.setString(3, vo.getDay());
 			ps.setString(4, vo.getContent());
 			
 			ps.executeUpdate();

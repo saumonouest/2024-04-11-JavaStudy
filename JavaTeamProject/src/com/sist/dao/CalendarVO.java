@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class CalendarVO {
 	private String title, place, content, userId;
-	private Date day;
+	private String day;
 
 
 
